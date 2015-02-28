@@ -1,0 +1,7 @@
+.Rproj.user
+.Rhistory
+.RData
+data/
+shp/
+result/siope_per_cap.csv
+result/siope_per_cap.rdata
