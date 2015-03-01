@@ -65,17 +65,20 @@ x3 <- tbl_df(x2) %>%
         filter(sottocomparto_siope == "COMUNE") %>%
          group_by(anno, sottocomparto_siope, cod_provincia, codice_gestionale) %>% 
           summarise(n = n(),
-                    mean_num_abitanti = mean(num_abitanti, na.rm = TRUE), 
-                    sum_num_abitanti = sum(num_abitanti, na.rm = TRUE), 
+                    mean_num_abitanti   = mean(num_abitanti, na.rm = TRUE), 
+                    sum_num_abitanti    = sum(num_abitanti, na.rm = TRUE), 
 
-                    sum_imp_uscite_att = sum(imp_uscite_att, na.rm = TRUE), 
+                    sum_imp_uscite_att  = sum(imp_uscite_att, na.rm = TRUE), 
+                    mean_imp_uscite_att = mean(imp_uscite_att, na.rm = TRUE), 
 
-                    sd_imp_per_cap   = sd(imp_per_cap, na.rm = TRUE),
-                    p25_imp_per_cap  = quantile(imp_per_cap, probs=0.25, na.rm = TRUE),
-                    p75_imp_per_cap  = quantile(imp_per_cap, probs=0.75, na.rm = TRUE),
-                    iqr_imp_per_cap  = IQR(imp_per_cap, na.rm = TRUE),
-
-                    mean_imp_per_cap = sum_imp_uscite_att / sum_num_abitanti)
+                    sd_imp_per_cap      = sd(imp_per_cap, na.rm = TRUE),
+                    p25_imp_per_cap     = quantile(imp_per_cap, probs = 0.25, na.rm = TRUE),
+                    p75_imp_per_cap     = quantile(imp_per_cap, probs = 0.75, na.rm = TRUE),
+                    iqr_imp_per_cap     = IQR(imp_per_cap, na.rm = TRUE),
+                    median_imp_per_cap  = median(imp_per_cap, na.rm = TRUE),
+                    mean_imp_per_cap    = mean(imp_per_cap, na.rm = TRUE),
+                    cv_imp_per_cap      = sd_imp_per_cap / mean_imp_per_cap,
+                    mean_imp_per_cap_ag = sum_imp_uscite_att / sum_num_abitanti)
 x3
 
 ###############################################################
