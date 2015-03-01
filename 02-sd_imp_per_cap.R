@@ -53,12 +53,12 @@ hm_sd$rowInd
 
 ###############################################################
 
-m_mean <- as.matrix(tapply(x3_14$mean_imp_per_cap, 
+m_mean <- as.matrix(tapply(x3_14$mean_imp_per_cap_ag, 
                          list(x3_14$cod_provincia, x3_14$codice_gestionale), mean))
 
 hm_mean <- make_hm(x=m_mean,
-             main = "mean_imp_per_cap by cod_provincia / codice_gestionale, 2014",
-             fname = "hm_mean_imp_per_cap.png")
+             main = "mean_imp_per_cap_ag by cod_provincia / codice_gestionale, 2014",
+             fname = "hm_mean_imp_per_cap_ag.png")
 
 
 
