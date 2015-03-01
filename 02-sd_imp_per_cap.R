@@ -12,9 +12,12 @@ load("./result/siope_per_cap.rdata")
 #        select_("codice_gestionale", "cod_provincia", "mean_imp_per_cap") # %>%
 #         spread(cod_provincia, codice_gestionale)
 
+x3_14 <- tbl_df(x3) %>%
+       filter(anno == 2014)
+
 # autsch,....
-m <- as.matrix(tapply(x3$sd_imp_per_cap, 
-               list(x3$cod_provincia, x3$codice_gestionale), mean))
+m_sd <- as.matrix(tapply(x3_14$sd_imp_per_cap, 
+               list(x3_14$cod_provincia, x3_14$codice_gestionale), mean))
 
 png(filename = "./result/hm_sd_imp_per_cap.png", 
     pointsize = 10, width = 29.7, height = 21, 
