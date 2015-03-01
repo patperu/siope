@@ -95,16 +95,38 @@ f1 <- filter(x3, anno == 2014, codice_gestionale == 2113)
 m.df <- merge(xsh.df, f1, by.x = "COD_PRO", by.y = "cod_provincia")
 m.df <- m.df[order(m.df$order), ]
 
-# http://www.kevjohnson.org/making-maps-in-r/
-p <- ggplot() + geom_polygon(data = m.df, aes(x = long, y = lat, group = group,
-        fill = mean_imp_per_cap), color = "black", size = 0.25)
-#p <- p + coord_map()
-p <- p + scale_fill_distiller(palette = "Greens")
-p <- p + guides(fill = guide_legend(reverse = TRUE))
-p <- p + theme_nothing(legend = TRUE)
-p <- p + ggtitle("2113 - Beni di valore culturale, storico, archeologico, ed artistico\nper Capita, 2014")
+make_plot <- function(m.df, var_name, gtitle) {
+  # http://www.kevjohnson.org/making-maps-in-r/
+  p <- ggplot() + geom_polygon(data = m.df, 
+                  aes_string(x = "long", y = "lat", group = "group",
+                             fill = var_name), color = "black", size = 0.25)
+  #p <- p + coord_map()
+  p <- p + scale_fill_distiller(palette = "Greens")
+  p <- p + guides(fill = guide_legend(reverse = TRUE))
+  p <- p + theme_nothing(legend = TRUE)
+  p <- p + ggtitle(gtitle)
+  return(p)
+}
 
-ggsave(p, file = "./result/2113_Beni_di_valore_perC_2014.png", width = 9, height = 9)
+p_mean <- make_plot(m.df, 
+                    "mean_imp_per_cap", 
+                    "2113 - Beni di valore culturale, storico, archeologico, ed artistico\nper Capita (Mean), 2014")
+ggsave(p_mean, file = "./result/2113_Beni_di_valore_perC_2014_mean.png", width = 9, height = 9)
+
+p_mean_ag <- make_plot(m.df, 
+                    "mean_imp_per_cap_ag", 
+                    "2113 - Beni di valore culturale, storico, archeologico, ed artistico\nper Capita (Mean_ag), 2014")
+ggsave(p_mean_ag, file = "./result/2113_Beni_di_valore_perC_2014_mean_ag.png", width = 9, height = 9)
+
+p_median <- make_plot(m.df, 
+                    "median_imp_per_cap", 
+                    "2113 - Beni di valore culturale, storico, archeologico, ed artistico\nper Capita (Median), 2014")
+ggsave(p_median, file = "./result/2113_Beni_di_valore_perC_2014_median.png", width = 9, height = 9)
+
+p_cv <- make_plot(m.df, 
+                      "cv_imp_per_cap", 
+                      "2113 - Beni di valore culturale, storico, archeologico, ed artistico\nper Capita (CV), 2014")
+ggsave(p_cv, file = "./result/2113_Beni_di_valore_perC_2014_cv.png", width = 9, height = 9)
 
 save(x, x2, x3, xsh.df, file = "./result/siope_per_cap.rdata")
 write.csv2(x3, file= "./result/siope_per_cap.csv")
