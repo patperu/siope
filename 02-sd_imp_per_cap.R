@@ -41,7 +41,11 @@ x3_14 <- tbl_df(x3) %>%
 m_sd <- as.matrix(tapply(x3_14$sd_imp_per_cap, 
                list(x3_14$cod_provincia, x3_14$codice_gestionale), mean))
 
-hm1$rowInd
+hm_sd <- make_hm(x=m_sd,
+                 main = "sd_imp_per_cap by cod_provincia / codice_gestionale, 2014",
+                 fname = "hm_sd_imp_per_cap.png")
+
+hm_sd$rowInd
 
 # Lombardia 16  -   ITC46   ITC46   Bergamo
 # Veneto    25  -   ITD33   ITH33   Belluno
