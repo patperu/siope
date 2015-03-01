@@ -4,6 +4,28 @@
 library("dplyr")
 library("gplots")
 
+make_hm <- function(x, main, fname) {
+  png(filename = file.path("./result", fname), 
+      pointsize = 10, width = 29.7, height = 21, 
+      units = "cm", res = 150)
+  # http://stackoverflow.com/a/20859824
+  hm1 <- heatmap.2(x,
+                   col = colorpanel(100, "red", "yellow", "green"),
+                   margins = c(8, 12),
+                   trace = "none", 
+                   xlab = "",
+                   lhei = c(2, 8),
+                   scale = c("col"),
+                   #symbreaks = min(mat, na.rm = TRUE),
+                   na.color = "blue",
+                   cexRow = 0.7, cexCol = 0.7,
+                   main = main, 
+                   dendrogram = "row", 
+                   Colv = FALSE)
+  dev.off()
+  return(hm1)
+}
+
 load("./result/siope_per_cap.rdata")
 
 # "spread" = Error
@@ -18,25 +40,6 @@ x3_14 <- tbl_df(x3) %>%
 # autsch,....
 m_sd <- as.matrix(tapply(x3_14$sd_imp_per_cap, 
                list(x3_14$cod_provincia, x3_14$codice_gestionale), mean))
-
-png(filename = "./result/hm_sd_imp_per_cap.png", 
-    pointsize = 10, width = 29.7, height = 21, 
-    units = "cm", res = 150)
-    # http://stackoverflow.com/a/20859824
-    hm1 <- heatmap.2(m,
-               col = colorpanel(100, "red", "yellow", "green"),
-               margins = c(8, 12),
-               trace = "none", 
-               xlab = "",
-               lhei = c(2, 8),
-               scale = c("col"),
-               #symbreaks = min(mat, na.rm = TRUE),
-               na.color = "blue",
-               cexRow = 0.7, cexCol = 0.7,
-               main = "sd_imp_per_cap by cod_provincia / codice_gestionale", 
-               dendrogram = "row", 
-               Colv = FALSE)
-dev.off()
 
 hm1$rowInd
 
