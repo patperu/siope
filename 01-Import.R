@@ -52,6 +52,10 @@ colnames(z) <- tolower(c("COD_ENTE",
                     "NUM_ABITANTI",
                     "SOTTOCOMPARTO_SIOPE"))
 
+z <- tbl_df(z) %>%
+      filter(sottocomparto_siope == "COMUNE") %>%
+      mutate(id = 1:n())
+
 ###############################################################
 
 x1 <- tbl_df(x) %>% 
@@ -62,7 +66,6 @@ x2 <- merge(x1, z, by = "cod_ente", all.x = TRUE)
 x2$imp_per_cap <- round(x2$imp_uscite_att / x2$num_abitanti, 2)
 
 x3 <- tbl_df(x2) %>% 
-        filter(sottocomparto_siope == "COMUNE") %>%
          group_by(anno, sottocomparto_siope, cod_provincia, codice_gestionale) %>% 
           summarise(n = n(),
                     mean_num_abitanti   = mean(num_abitanti, na.rm = TRUE), 
