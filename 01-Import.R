@@ -56,6 +56,14 @@ z <- tbl_df(z) %>%
       filter(sottocomparto_siope == "COMUNE") %>%
       mutate(id = 1:n())
 
+z_lt100 <- tbl_df(z) %>%
+             filter(num_abitanti < 100) %>%
+               arrange(num_abitanti)
+
+z <- tbl_df(z) %>%
+       filter(num_abitanti > 100) %>%
+         arrange(num_abitanti)
+
 ###############################################################
 
 x1 <- tbl_df(x) %>% 
