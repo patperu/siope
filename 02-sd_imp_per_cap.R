@@ -28,6 +28,9 @@ make_hm <- function(x, main, fname) {
 
 load("./result/siope_per_cap.rdata")
 
+# Read 'spese' --  codice_gestionale
+spese <- scan("./data/spese.csv", skip = 1)
+
 # "spread" = Error
 #m <- tbl_df(x3) %>%
 #       filter(anno == 2014) %>%
@@ -35,15 +38,20 @@ load("./result/siope_per_cap.rdata")
 #         spread(cod_provincia, codice_gestionale)
 
 x3_14 <- tbl_df(x3) %>%
-       filter(anno == 2014)
+           filter(anno == 2014, codice_gestionale %in% spese)
+
+f1 <- as.integer(names(which(table(x3_14$codice_gestionale) >= 100)))
+
+x3_14 <- tbl_df(x3_14) %>%
+           filter(codice_gestionale %in% f1)
 
 # autsch,....
 m_sd <- as.matrix(tapply(x3_14$sd_imp_per_cap, 
                list(x3_14$cod_provincia, x3_14$codice_gestionale), mean))
 
 hm_sd <- make_hm(x=m_sd,
-                 main = "sd_imp_per_cap by cod_provincia / codice_gestionale, 2014",
-                 fname = "hm_sd_imp_per_cap.png")
+                 main = "sd_imp_per_cap by cod_provincia / codice_gestionale, spese, 2014",
+                 fname = "hm_sd_imp_per_cap_spese.png")
 
 hm_sd$rowInd
 
@@ -57,8 +65,17 @@ m_mean <- as.matrix(tapply(x3_14$mean_imp_per_cap_ag,
                          list(x3_14$cod_provincia, x3_14$codice_gestionale), mean))
 
 hm_mean <- make_hm(x=m_mean,
-             main = "mean_imp_per_cap_ag by cod_provincia / codice_gestionale, 2014",
-             fname = "hm_mean_imp_per_cap_ag.png")
+             main = "mean_imp_per_cap_ag by cod_provincia / codice_gestionale, spese, 2014",
+             fname = "hm_mean_imp_per_cap_ag_spese.png")
+
+###############################################################
+
+m_median <- as.matrix(tapply(x3_14$median_imp_per_cap, 
+                           list(x3_14$cod_provincia, x3_14$codice_gestionale), mean))
+
+hm_median <- make_hm(x=m_median,
+                   main = "median_imp_per_cap by cod_provincia / codice_gestionale, spese, 2014",
+                   fname = "hm_median_imp_per_cap_spese.png")
 
 ###############################################################
 
@@ -66,8 +83,8 @@ m_cv <- as.matrix(tapply(x3_14$cv_imp_per_cap,
                            list(x3_14$cod_provincia, x3_14$codice_gestionale), mean))
 
 hm_cv <- make_hm(x=m_cv,
-                   main = "cv_imp_per_cap by cod_provincia / codice_gestionale, 2014",
-                   fname = "hm_cv_imp_per_cap.png")
+                   main = "cv_imp_per_cap by cod_provincia / codice_gestionale, spese, 2014",
+                   fname = "hm_cv_imp_per_cap_spese.png")
 
 ###############################################################
 
